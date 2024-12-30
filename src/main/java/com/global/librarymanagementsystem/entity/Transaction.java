@@ -4,6 +4,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 
+import jakarta.annotation.Generated;
+
 public class Transaction {
     @Id
     @Column("transaction_id")

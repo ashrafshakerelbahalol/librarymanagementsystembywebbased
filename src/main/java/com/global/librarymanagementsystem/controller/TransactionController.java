@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -33,9 +34,9 @@ public class TransactionController {
         return transactionService.addTransaction(transaction) ;
     }
 
-    @GetMapping("/addreturndateandfine")
-    public int addReturnDateAndFine(@RequestBody Transaction transaction) {
-        return transactionService.addReturnDateAndFine(transaction) ;
+    @PutMapping("/addreturndateandfine/{id}")
+    public int addReturnDateAndFine(@PathVariable int id) {
+        return transactionService.addReturnDateAndFine(id) ;
     }
     
 

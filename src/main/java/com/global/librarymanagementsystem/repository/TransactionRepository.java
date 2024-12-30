@@ -33,17 +33,18 @@ public class TransactionRepository {
         + "VALUES (:book_id,:user_id,:issue_date)",mapSqlParameterSource);
     }
 
-    public  Transaction findById(Integer id) {
-       return namedParameterJdbcTemplate.queryForObject("SELECT id ,name, salary FROM employee where id=:id",
+    public  Transaction findById(int id) {
+       return namedParameterJdbcTemplate.queryForObject("SELECT transaction_id,book_id,user_id,issue_date," 
+                      +" return_date,fine_amount FROM transaction where transaction_id=:id;",
        new MapSqlParameterSource("id",id) ,new TransactionMapper());
     }
 
-    public int updateTransaction(Transaction transaction) {
+    public int addReturnDateAndFine(Transaction transaction) {
         MapSqlParameterSource mapSqlParameterSource= new MapSqlParameterSource();
         mapSqlParameterSource.addValue("return_date",transaction.getReturnDate());
         mapSqlParameterSource.addValue("fine_amount",transaction.getFineAmount());
         mapSqlParameterSource.addValue("transaction_id",transaction.getTransactionId());
-        return namedParameterJdbcTemplate.update("UPDATE  transaction set return_date=:return_date,fine_amount=:fine_amount"
+        return namedParameterJdbcTemplate.update("UPDATE  transaction set return_date=:return_date , fine_amount=:fine_amount "
         + " where transaction_id=:transaction_id; ",mapSqlParameterSource);
     }
 

@@ -30,23 +30,20 @@ public class TransactionService {
         currentTransaction.setIssueDate(sqlDate);
         return transactionRepository.addTransaction(currentTransaction);
     }
-   @Transactional
-    public int addReturnDateAndFine(Transaction transaction) {
-        Transaction currentTransaction = transactionRepository.findById(transaction.getTransactionId());
-        currentTransaction.setBookId(transaction.getBookId());
-        currentTransaction.setUserId(transaction.getUserId());
+   
+    public int addReturnDateAndFine(int id ) {
+        Transaction currentTransaction = transactionRepository.findById(id);
         LocalDate localDate = LocalDate.now();
         Date sqlDate = Date.valueOf(localDate);
         currentTransaction.setReturnDate(sqlDate);
-        currentTransaction.setIssueDate(transaction.getIssueDate());
-        long diffInMillies = Math.abs(transaction.getIssueDate().getTime() - transaction.getReturnDate().getTime());
+        long diffInMillies = Math.abs(currentTransaction.getIssueDate().getTime() - currentTransaction.getReturnDate().getTime());
         long daysDiff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         if (daysDiff > 15)
             currentTransaction.setFineAmount(daysDiff * 5.0);
         else
             currentTransaction.setFineAmount(0.0);
 
-        return transactionRepository.updateTransaction(currentTransaction);
+        return transactionRepository.addReturnDateAndFine(currentTransaction);
     }
 
     public Transaction findaById(int id) {
