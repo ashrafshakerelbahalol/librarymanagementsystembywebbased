@@ -16,14 +16,17 @@ import com.global.librarymanagementsystem.entity.Transaction;
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
+    @Autowired
+    private BookService bookService;
 
     public List<Transaction> findallTransactions() {
         return transactionRepository.findAll();
     }
-
+   @Transactional 
     public int addTransaction(Transaction transaction) {
         Transaction currentTransaction = new Transaction();
         currentTransaction.setBookId(transaction.getBookId());
+        bookService.updateQuantity(transaction.getBookId(), false);
         currentTransaction.setUserId(transaction.getUserId());
         LocalDate localDate = LocalDate.now();
         Date sqlDate = Date.valueOf(localDate);
@@ -33,6 +36,7 @@ public class TransactionService {
    
     public int addReturnDateAndFine(int id ) {
         Transaction currentTransaction = transactionRepository.findById(id);
+        bookService.updateQuantity(currentTransaction.getBookId(), true);
         LocalDate localDate = LocalDate.now();
         Date sqlDate = Date.valueOf(localDate);
         currentTransaction.setReturnDate(sqlDate);

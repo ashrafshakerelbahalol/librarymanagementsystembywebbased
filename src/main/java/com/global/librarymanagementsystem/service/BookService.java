@@ -14,11 +14,11 @@ public class BookService {
     private BookRepository bookRepository;
 
     public List<Book> findAllBook() {
-       return (List<Book>)bookRepository.findAll();
+        return (List<Book>) bookRepository.findAll();
     }
 
     public Book addBook(Book book) {
-        Book currentBook =new Book();
+        Book currentBook = new Book();
         currentBook.setTitle(book.getTitle());
         currentBook.setAuthor(book.getAuthor());
         currentBook.setIsbn(book.getIsbn());
@@ -42,12 +42,22 @@ public class BookService {
         return bookRepository.save(currentBook);
     }
 
-    public Book findBook(int id) {
-       return bookRepository.findById(id).get();
+    public Book updateQuantity(int id, boolean increaseQuantity) {
+        Book currentBook = bookRepository.findById(id).get();
+        if (increaseQuantity)
+            currentBook.setQuantity(currentBook.getQuantity() + 1);
+        else
+            currentBook.setQuantity(currentBook.getQuantity() - 1);
+        return bookRepository.save(currentBook);
     }
+
+    public Book findBook(int id) {
+        return bookRepository.findById(id).get();
+    }
+
     public void deleteBook(int id) {
-       Book bookToDelete= bookRepository.findById(id).get();
-       bookRepository.delete(bookToDelete);
-     }
+        Book bookToDelete = bookRepository.findById(id).get();
+        bookRepository.delete(bookToDelete);
+    }
 
 }
